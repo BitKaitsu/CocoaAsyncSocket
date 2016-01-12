@@ -141,6 +141,8 @@ typedef NS_ENUM(NSInteger, GCDAsyncSocketError) {
 **/
 @property (atomic, strong, readwrite, nullable) id userData;
 
+- (void)setNoDelayFlag;
+
 #pragma mark Accepting
 
 /**

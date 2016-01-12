@@ -20,6 +20,7 @@
 #import <ifaddrs.h>
 #import <netdb.h>
 #import <netinet/in.h>
+#import <netinet/tcp.h>
 #import <net/if.h>
 #import <sys/socket.h>
 #import <sys/types.h>
@@ -1360,6 +1361,16 @@ enum GCDAsyncSocketConfig
 		block();
 	else
 		dispatch_async(socketQueue, block);
+}
+
+- (void)setNoDelayFlag {
+    [self performBlock:^{
+        int fd = [self socketFD];
+        int on = 1;
+        if (setsockopt(fd, IPPROTO_TCP, TCP_NODELAY, (char*)&on, sizeof(on)) == -1) {
+            // Handle error
+        }
+    }];
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
